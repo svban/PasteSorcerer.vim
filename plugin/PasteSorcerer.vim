@@ -14,19 +14,7 @@ set cpo&vim
     " Doesn't work with count, but theres no need for it
     function! s:PasteInLine(afterOrBefore)
         exe 'let s:myContent = @' . v:register
-
-        " For Empty Lines
-        let s:myContent = substitute(s:myContent, '\n\n', ' ', 'g')
-
-        let s:myContent = substitute(s:myContent, '^\s*', '', 'g')
-        let s:myContent = substitute(s:myContent, '\s*\n', '\n', 'g')
-        let s:myContent = substitute(s:myContent, '\n\s*', '\n', 'g')
-        if count(s:myContent, "\n") > 1
-            let s:myContent = substitute(s:myContent, '\n', ' ', 'g')
-            let s:myContent = substitute(s:myContent, ' $', '', 'g')
-        else
-            let s:myContent = substitute(s:myContent, '\n', '', 'g')
-        endif
+        let s:myContent = s:myContent->substitute('\_s\+', ' ', 'g')->trim()
 
         " Paste new content
         let s:reg_save = getreg('k')
